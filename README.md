@@ -1,6 +1,6 @@
-# Nuxt Minimal Starter
+# PDF Component Generator
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A Nuxt 3 application that allows you to generate PDFs from Vue components. Built with html2pdf.js for PDF generation and Bootstrap for styling.
 
 ## Setup
 
@@ -37,6 +37,35 @@ yarn dev
 # bun
 bun run dev
 ```
+
+## Features
+
+- Dynamic component rendering
+- PDF generation from any component
+- Bootstrap styling
+- Easy to add new components
+
+## Usage
+
+1. Access components through the dynamic route:
+   ```
+   http://localhost:3000/generate-pdf/SimpleCard    # View and generate PDF of the card component
+   http://localhost:3000/generate-pdf/SimpleTable   # View and generate PDF of the table component
+   ```
+
+2. Add new components:
+   - Create your component in the `components` directory
+   - Import it in `pages/generate-pdf/[pdfcomponentname].vue`
+   - Add it to the components object
+   ```javascript
+   import NewComponent from '~/components/NewComponent.vue'
+   
+   const components = {
+     SimpleCard,
+     SimpleTable,
+     NewComponent  // Add your new component here
+   }
+   ```
 
 ## Production
 
