@@ -1,11 +1,15 @@
 <template>
   <div>
     <div id="pdf-content">
-      <SimpleTable v-if="componentName === 'table'" />
-      <SimpleCard v-if="componentName === 'card'" />
+      <component :is="selectedComponent" v-if="componentExists" />
+      <div v-else class="alert alert-danger">
+        Component "{{ componentName }}" not found
+      </div>
     </div>
     <div class="container my-4">
-      <button class="btn btn-primary" @click="generatePDF">Generate PDF</button>
+      <button class="btn btn-primary" @click="generatePDF" v-if="componentExists">
+        Generate PDF
+      </button>
     </div>
   </div>
 </template>
@@ -13,10 +17,24 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import SimpleCard from '~/components/SimpleCard.vue'
+import SimpleTable from '~/components/SimpleTable.vue'
+import test from '~/components/test.vue'
+
+// Available components map
+const components = {
+  SimpleCard,
+  SimpleTable,
+  test
+}
 
 // Get the dynamic component name from route param
 const route = useRoute()
 const componentName = computed(() => route.params.pdfcomponentname)
+
+// Check if component exists and get it
+const componentExists = computed(() => componentName.value in components)
+const selectedComponent = computed(() => components[componentName.value])
 
 const generatePDF = async () => {
   // Only run in browser
